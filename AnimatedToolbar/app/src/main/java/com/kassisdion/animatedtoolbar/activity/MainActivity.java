@@ -1,4 +1,6 @@
-package com.kassisdion.animatedtoolbar;
+package com.kassisdion.animatedtoolbar.activity;
+
+import com.kassisdion.animatedtoolbar.R;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

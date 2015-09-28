@@ -1,4 +1,6 @@
-package com.kassisdion.animatedtoolbar;
+package com.kassisdion.animatedtoolbar.fragment;
+
+import com.kassisdion.animatedtoolbar.R;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
