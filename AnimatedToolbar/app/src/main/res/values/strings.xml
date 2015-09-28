@@ -1,5 +1,10 @@
 <resources>
+    <!-- Generated string-->
     <string name="app_name">AnimatedToolbar</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Custom String-->
+    <string name="fade_in">fade_in</string>
+    <string name="fade_out">fade out</string>
 </resources>

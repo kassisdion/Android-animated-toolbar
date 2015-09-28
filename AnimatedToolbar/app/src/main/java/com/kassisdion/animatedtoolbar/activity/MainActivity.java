@@ -1,8 +1,8 @@
 package com.kassisdion.animatedtoolbar.activity;
 
 import com.kassisdion.animatedtoolbar.R;
+import com.kassisdion.animatedtoolbar.fragment.MainActivityFragment;
 import com.kassisdion.animatedtoolbar.lib.toolbar.AnimatedToolbar;
-import com.kassisdion.animatedtoolbar.lib.toolbarAnimator.ToolbarAnimator;
 
 import android.os.Bundle;
 
@@ -12,7 +12,6 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     AnimatedToolbar mToolbar;
-
 
     /*
     ** Life cycle
@@ -25,7 +24,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initUI(Bundle savedInstanceState) {
         setUpToolbar();
-        mToolbar.startAnimation(10 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
+        MainActivityFragment.load(getSupportFragmentManager(), false);
     }
 
     @Override
@@ -38,5 +37,9 @@ public class MainActivity extends BaseActivity {
      */
     private void setUpToolbar() {
         setSupportActionBar(mToolbar);
+    }
+
+    public AnimatedToolbar getToolbar() {
+        return mToolbar;
     }
 }

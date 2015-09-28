@@ -27,9 +27,9 @@ public final class ToolbarAnimator {
     //private field
     private final Toolbar mActionBar;
     private final Timer mTimer;
-    private int mCurrentAlpha;
     private final int mActionBarBackgroundColor;
     private final Context mContext;
+    private int mCurrentAlpha;
     private ToolbarAnimatorCallback mCallback;
     private long mPeriod;
     private long mDuration;
@@ -59,17 +59,17 @@ public final class ToolbarAnimator {
     /*
     ** Public method
      */
-    public ToolbarAnimator withCallback(@NonNull final ToolbarAnimatorCallback callback) {
+    public ToolbarAnimator setCallback(@NonNull final ToolbarAnimatorCallback callback) {
         mCallback = callback;
         return this;
     }
 
-    public ToolbarAnimator withDelay(final int delay) {
+    public ToolbarAnimator setDelay(final int delay) {
         mDelay = delay;
         return this;
     }
 
-    public void start(final long duration, @NonNull final AnimationType animationType) {
+    public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
         mDuration = duration;
 
         switch (animationType) {
@@ -130,7 +130,7 @@ public final class ToolbarAnimator {
             }
         });
     }
-
+    
     /*
     ** Utils
      */
