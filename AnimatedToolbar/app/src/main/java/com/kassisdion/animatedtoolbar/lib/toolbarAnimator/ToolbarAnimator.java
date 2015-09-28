@@ -1,4 +1,4 @@
-package com.kassisdion.animatedtoolbar.lib;
+package com.kassisdion.animatedtoolbar.lib.toolbarAnimator;
 
 import com.kassisdion.animatedtoolbar.utils.LogHelper;
 
