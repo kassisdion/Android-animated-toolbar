@@ -7,7 +7,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 
 import java.util.Timer;
@@ -25,11 +25,11 @@ public final class ToolbarAnimator {
     private final int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
 
     //private field
-    private final ActionBar mActionBar;
+    private final Toolbar mActionBar;
     private final Timer mTimer;
     private int mCurrentAlpha;
     private final int mActionBarBackgroundColor;
-    private final Activity mActivity;
+    private final Context mContext;
     private ToolbarAnimatorCallback mCallback;
     private long mPeriod;
     private long mDuration;
@@ -45,15 +45,15 @@ public final class ToolbarAnimator {
     /*
     ** Constructor
      */
-    public ToolbarAnimator(@NonNull final Activity activity, @NonNull final ActionBar actionBar, final int actionBarBackgroundColor) {
-        mActivity = activity;
+    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar, final int actionBarBackgroundColor) {
+        mContext = context;
         mActionBar = actionBar;
         mTimer = new Timer();
         mActionBarBackgroundColor = actionBarBackgroundColor;
     }
 
-    public ToolbarAnimator(@NonNull final Activity activity, @NonNull final ActionBar actionBar) {
-        this(activity, actionBar, getThemeAccentColor(activity));
+    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
+        this(context, actionBar, getThemeAccentColor(context));
     }
 
     /*
@@ -104,7 +104,7 @@ public final class ToolbarAnimator {
 
     private void updateActionBar() {
         //We have to go to the main thread for updating the interface.
-        mActivity.runOnUiThread(new TimerTask() {
+        ((Activity) mContext).runOnUiThread(new TimerTask() {
             @Override
             public void run() {
                 //check if the animation is ended
