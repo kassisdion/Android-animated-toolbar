@@ -31,7 +31,7 @@ public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
     ** Public method
      */
     public void startAnimation(final long duration, @NonNull final ToolbarAnimator.AnimationType animationType) {
-
+        
         new ToolbarAnimator(mContext, this)
                 .withDelay(500)
                 .start(duration, animationType);
