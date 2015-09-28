@@ -1,11 +1,9 @@
 package com.kassisdion.utils;
 
-import com.kassisdion.lib.BuildConfig;
-
 import android.util.Log;
 
 public final class LogHelper {
-    static final boolean IS_ENABLE = BuildConfig.DEBUG;
+    static final boolean IS_ENABLE = true;
 
     private LogHelper() {
     }

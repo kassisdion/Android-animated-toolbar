@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,16 +24,18 @@ public final class ToolbarAnimator {
     private final int ALPHA_MAX = 255;//just look at the documentation
     private final int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
 
+    //private field use under the thread
+    private volatile int mCurrentAlpha;
+    private volatile Timer mTimer;
+    private volatile ToolbarAnimatorCallback mCallback;
+    private volatile int mAlphaPerTick;//alpha we'll remove/add on every tick
+    private final int mActionBarBackgroundColor;
+
     //private field
     private final Toolbar mActionBar;
-    private Timer mTimer;
-    private final int mActionBarBackgroundColor;
     private final Context mContext;
-    private int mCurrentAlpha;
-    private ToolbarAnimatorCallback mCallback;
     private long mPeriod;
     private long mDuration;
-    private int mAlphaPerTick;//alpha we'll remove/add on every tick
     private long mDelay;//amount of time in milliseconds before animation execution.
 
     //public field
@@ -108,10 +109,6 @@ public final class ToolbarAnimator {
     }
 
     private void updateActionBar() {
-        if (mTimer == null) {
-            return;
-        }
-
         //We have to go to the main thread for updating the interface.
         ((Activity) mContext).runOnUiThread(new TimerTask() {
             @Override
@@ -119,12 +116,7 @@ public final class ToolbarAnimator {
                 //check if the animation is ended
                 if (mCurrentAlpha > 255 || mCurrentAlpha < 0) {
                     LogHelper.d(TAG, "cancel timer");
-                    mTimer.cancel();
-                    mTimer.purge();
-                    mTimer = null;
-                    if (mCallback != null) {
-                        mCallback.hasEnded();
-                    }
+                    finishAnimation();
                     return;
                 }
 
@@ -139,5 +131,18 @@ public final class ToolbarAnimator {
                 mCurrentAlpha += mAlphaPerTick;
             }
         });
+    }
+
+    private void finishAnimation() {
+        if (mTimer == null) {
+            return;
+        }
+        mTimer.cancel();
+        mTimer.purge();
+        mTimer = null;
+
+        if (mCallback != null) {
+            mCallback.hasEnded();
+        }
     }
 }
