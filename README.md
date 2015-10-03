@@ -36,7 +36,7 @@ dependencies {
 ```
 
 ## Usage
-First define your toolbar under your xml :
+#### Step 1 : Define your toolbar under your xml :
 
 ```java
 <?xml version="1.0" encoding="utf-8"?>
@@ -47,7 +47,7 @@ First define your toolbar under your xml :
         android:layout_height="?attr/actionBarSize" />
 ```
 
-Then initialize the toolbar under your activity :
+#### Step 2 : Initialize the toolbar under your activity :
 
 ```java
     @Override
@@ -59,8 +59,9 @@ Then initialize the toolbar under your activity :
     }
 ```
 
-And then, you can start the animation from your activity or from your fragment :
+#### Step 3 : Start the animation :
 
+You can start the animation from your activity or from your fragment 
 ```java
         final int duration = 2 * 1000; //animation duration in ms
         toolbar.getAnimator()
