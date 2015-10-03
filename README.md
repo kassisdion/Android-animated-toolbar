@@ -1,7 +1,5 @@
 # Android-animated-toolbar
 
-# Android-animated-toolbar
-
 ## What's Android-animated-toolbar ?
 One day, I saw a question about ["How to implement fade_in on the under the actionBar"](http://stackoverflow.com/a/32800153/5215998).
 I find this question really interesting so i started to find out a solution and 1 day later this sample was born.
@@ -16,6 +14,26 @@ I find this question really interesting so i started to find out a solution and 
 * You can choose the animation duration.
 * You can choose a delay (time before launching the animation).
 * You can choose the color of the animation.
+
+## Import
+[JitPack](https://jitpack.io/)
+
+Add it in your project's build.gradle at the end of repositories:
+
+```gradle
+repositories {
+  // ...
+  maven { url "https://jitpack.io" }
+}
+```
+
+Step 2. Add the dependency in the form
+
+```gradle
+dependencies {
+  compile 'com.github.kassisdion:Android-animated-toolbar:0.0.3'
+}
+```
 
 ## Usage
 First define your toolbar under your xml :
