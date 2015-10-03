@@ -15,55 +15,78 @@ I find this question really interesting so i started to find out a solution and 
 * You can choose a delay (time before launching the animation).
 * You can choose the color of the animation.
 
+## Import
+[JitPack](https://jitpack.io/)
+
+Add it in your project's build.gradle at the end of repositories:
+
+```gradle
+repositories {
+  // ...
+  maven { url "https://jitpack.io" }
+}
+```
+
+Step 2. Add the dependency in the form
+
+```gradle
+dependencies {
+  compile 'com.github.kassisdion:Android-animated-toolbar:0.0.3'
+}
+```
+
 ## Usage
-First define your toolbar under your xml :
+#### Step 1 : Define your toolbar under your xml :
 
 ```java
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <com.kassisdion.animatedtoolbar.lib.toolbar.AnimatedToolbar
+    <com.kassisdion.lib.toolbar.AnimatedToolbar
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize" />
-
-</LinearLayout>
 ```
 
-Then initialize the toolbar under your activity :
+#### Step 2 : Initialize the toolbar under your activity :
 
 ```java
-    private AnimatedToolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        final AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
+        AnimatedToolbar toolbar = (AnimatedToolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
     }
-    
-    public AnimatedToolbar getToolbar() {
-        return mToolbar;
-    }
 ```
 
-And then, you can start the animation from your activity or from your fragment :
+#### Step 3 : Start the animation :
 
+You can start the animation from your activity or from your fragment 
 ```java
-    toolbar.getAnimator()
-        .setCallback(mToolbarAnimatorCallback)
-        .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
+        final int duration = 2 * 1000; //animation duration in ms
+        toolbar.getAnimator()
+               .startAnimation(duration, ToolbarAnimator.AnimationType.FADE_IN);
 ```
 
-You can take look at the source code for more information.
+You can add some extra parameters before starting the animation :
+```java
+        toolbar.getAnimator()
+                .setCallback(new ToolbarAnimatorCallback() {
+                    @Override
+                    public void hasEnded() {
+                        //Do what you want, animation has ended
+                    }
+                })
+                .setDelay(1 * 1000)//time before starting animation (in ms)
+                .startAnimation(duration, ToolbarAnimator.AnimationType.FADE_IN
+```
+
+## Sample
+You can take look at the *app* folder more information.
 
 ## License
 See  LICENSE.txt
 
 ## Contact
 If you have any new idea about this project, feel free to [contact me](mailto:florian.faisant@gmail.com).
+
