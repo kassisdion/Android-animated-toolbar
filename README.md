@@ -89,3 +89,4 @@ See  LICENSE.txt
 
 ## Contact
 If you have any new idea about this project, feel free to [contact me](mailto:florian.faisant@gmail.com).
+
