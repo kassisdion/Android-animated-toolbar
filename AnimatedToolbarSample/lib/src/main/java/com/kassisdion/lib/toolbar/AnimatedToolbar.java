@@ -8,8 +8,8 @@ import android.util.AttributeSet;
 public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
 
     private final static String TAG = AnimatedToolbar.class.getSimpleName();
-    private final Context mContext;
     private ToolbarAnimator mToolbarAnimator;
+    private final Context mContext;
 
     /*
     ** Constructor
@@ -19,8 +19,9 @@ public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
     }
 
     public AnimatedToolbar(Context context, AttributeSet attrs) {
-        //TODO use good style
-        this(context, attrs, 0);
+        super(context, attrs);
+
+        mContext = context;
     }
 
     public AnimatedToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -33,6 +34,6 @@ public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
     ** Public method
      */
     public ToolbarAnimator getAnimator() {
-        return mToolbarAnimator;
+        return new ToolbarAnimator(mContext, this);
     }
 }

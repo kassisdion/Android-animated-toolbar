@@ -29,7 +29,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initLogic(Bundle savedInstanceState) {
-
     }
 
     /*

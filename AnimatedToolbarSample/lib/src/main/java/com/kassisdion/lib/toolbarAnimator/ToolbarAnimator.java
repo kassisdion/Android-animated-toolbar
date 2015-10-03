@@ -1,14 +1,17 @@
 package com.kassisdion.lib.toolbarAnimator;
 
+import com.kassisdion.lib.R;
 import com.kassisdion.utils.LogHelper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,12 +27,11 @@ public final class ToolbarAnimator {
     private final int ALPHA_MAX = 255;//just look at the documentation
     private final int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
 
-    //private field use under the thread
+    //private field we'll change under the thread
     private volatile int mCurrentAlpha;
     private volatile Timer mTimer;
     private volatile ToolbarAnimatorCallback mCallback;
     private volatile int mAlphaPerTick;//alpha we'll remove/add on every tick
-    private final int mActionBarBackgroundColor;
 
     //private field
     private final Toolbar mActionBar;
@@ -37,6 +39,7 @@ public final class ToolbarAnimator {
     private long mPeriod;
     private long mDuration;
     private long mDelay;//amount of time in milliseconds before animation execution.
+    private final int mActionBarBackgroundColor;
 
     //public field
     public enum AnimationType {
@@ -54,8 +57,7 @@ public final class ToolbarAnimator {
     }
 
     public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
-        //TODO get accent color from theme
-        this(context, actionBar, Color.RED);
+        this(context, actionBar, getThemeAccentColor(context));
     }
 
     /*
@@ -124,11 +126,22 @@ public final class ToolbarAnimator {
                 final Drawable backgroundDrawable = new ColorDrawable(mActionBarBackgroundColor);
                 backgroundDrawable.setAlpha(mCurrentAlpha);
 
-                //apply the new color
-                mActionBar.setBackgroundDrawable(backgroundDrawable);
+                //apply the new drawable on the actionBar
+                updateUi(backgroundDrawable);
 
                 //upgrade alpha
                 mCurrentAlpha += mAlphaPerTick;
+            }
+        });
+    }
+
+    private void updateUi(final Drawable backgroundDrawable) {
+        //We have to go to the main thread for updating the interface.
+        ((Activity) mContext).runOnUiThread(new TimerTask() {
+            @Override
+            public void run() {
+                //apply the new color
+                mActionBar.setBackgroundDrawable(backgroundDrawable);
             }
         });
     }
@@ -144,5 +157,18 @@ public final class ToolbarAnimator {
         if (mCallback != null) {
             mCallback.hasEnded();
         }
+    }
+
+    /*
+    ** Utils
+     */
+    private static int getThemeAccentColor(final Context context) {
+        TypedValue typedValue = new TypedValue();
+
+        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
+        int color = a.getColor(0, Color.BLUE);
+        a.recycle();
+
+        return color;
     }
 }

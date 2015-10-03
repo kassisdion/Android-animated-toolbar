@@ -24,6 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     //Annotation replacing findViewById()
     compile 'com.jakewharton:butterknife:7.0.1'
-
+    
     compile project(':lib')
 }
