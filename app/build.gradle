@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.kassisdion.animatedtoolbar"
+        applicationId "com.kassisdion.animatedtoolbar.demo"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -24,6 +24,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     //Annotation replacing findViewById()
     compile 'com.jakewharton:butterknife:7.0.1'
-    
+
     compile project(':lib')
 }

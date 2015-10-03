@@ -1,4 +1,4 @@
-package com.kassisdion.animatedToolbarSample;
+package com.kassisdion.animatedToolbar;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

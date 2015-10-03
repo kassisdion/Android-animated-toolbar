@@ -1,7 +1,7 @@
-package com.kassisdion.animatedToolbarSample.activity;
+package com.kassisdion.animatedToolbar.demo.activity;
 
-import com.kassisdion.animatedToolbarSample.R;
-import com.kassisdion.animatedToolbarSample.fragment.MainActivityFragment;
+import com.kassisdion.animatedToolbar.R;
+import com.kassisdion.animatedToolbar.demo.fragment.MainActivityFragment;
 import com.kassisdion.lib.toolbar.AnimatedToolbar;
 
 import android.os.Bundle;

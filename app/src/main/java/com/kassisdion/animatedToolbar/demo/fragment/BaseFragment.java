@@ -1,4 +1,4 @@
-package com.kassisdion.animatedToolbarSample.fragment;
+package com.kassisdion.animatedToolbar.demo.fragment;
 
 import android.content.Context;
 import android.content.Intent;

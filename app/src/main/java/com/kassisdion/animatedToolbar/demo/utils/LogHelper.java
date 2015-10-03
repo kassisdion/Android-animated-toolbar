@@ -1,6 +1,6 @@
-package com.kassisdion.animatedToolbarSample.utils;
+package com.kassisdion.animatedToolbar.demo.utils;
 
-import com.kassisdion.animatedToolbarSample.BuildConfig;
+import com.kassisdion.animatedToolbar.BuildConfig;
 
 import android.util.Log;
 
