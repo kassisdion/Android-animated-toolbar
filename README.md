@@ -68,7 +68,7 @@ You can start the animation from your activity or from your fragment
                .startAnimation(duration, ToolbarAnimator.AnimationType.FADE_IN);
 ```
 
-You can set some extra parameters before startion the animation :
+You can add some extra parameters before starting the animation :
 ```java
         toolbar.getAnimator()
                 .setCallback(new ToolbarAnimatorCallback() {
@@ -81,7 +81,8 @@ You can set some extra parameters before startion the animation :
                 .startAnimation(duration, ToolbarAnimator.AnimationType.FADE_IN
 ```
 
-You can take look at the source app folder (which contain the sample) more information.
+## Sample
+You can take look at the *app* folder more information.
 
 ## License
 See  LICENSE.txt
