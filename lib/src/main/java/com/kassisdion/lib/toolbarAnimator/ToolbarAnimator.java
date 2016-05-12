@@ -38,7 +38,7 @@ public final class ToolbarAnimator {
     private final Context mContext;
     private long mDuration;//duration of the animation
     private long mDelay;//amount of time in milliseconds before animation execution.
-    private final int mAnimationColor;//background color for the animation
+    private int mAnimationColor;//background color for the animation
     private final Drawable mAnimationBackground;//background drawable for the animation
 
     //public field
@@ -62,22 +62,38 @@ public final class ToolbarAnimator {
     }
 
     /*
-    ** Public method
+    ** Getter and setter
      */
     public ToolbarAnimator setCallback(@NonNull final ToolbarAnimatorCallback callback) {
         mCallback = callback;
         return this;
     }
 
-    public ToolbarAnimator setDelay(final int delay) {
+    public ToolbarAnimator setDelay(final long delay) {
         mDelay = delay;
         return this;
+    }
+
+    public long getDelay() {
+        return mDelay;
     }
 
     public void stopAnimation() {
         stopScheduler();
     }
 
+    public ToolbarAnimator setAnimationColor(final int color) {
+        mAnimationColor = color;
+        return this;
+    }
+
+    public int getAnimationColor() {
+        return mAnimationColor;
+    }
+
+    /*
+    ** Public method
+     */
     public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
         mDuration = duration;
 
@@ -85,6 +101,8 @@ public final class ToolbarAnimator {
         if (mTimer != null) {
             stopScheduler();
         }
+
+        //Instantiate a new timer
         mTimer = new Timer();
 
         //Check animationType and init variable in regard of the type
@@ -115,6 +133,8 @@ public final class ToolbarAnimator {
     /*
     ** Private method
      */
+
+    //Update the toolbar background on the main thread and check if the animation has to stop
     private void updateActionBar() {
         //We have to go to the main thread for updating the interface.
         ((Activity) mContext).runOnUiThread(new TimerTask() {
@@ -140,9 +160,7 @@ public final class ToolbarAnimator {
         });
     }
 
-    /*
-    ** Stop the scheduler and call the listener
-     */
+    //Stop the scheduler and call the listener
     private void stopScheduler() {
         if (mTimer == null) {
             return;
