@@ -9,7 +9,10 @@ import com.kassisdion.lib.toolbarAnimator.ToolbarAnimatorCallback;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -44,12 +47,7 @@ public class MainActivityFragment extends BaseFragment {
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void initLogic(Bundle savedInstanceState) {
+    protected void init(View rootView, Bundle savedInstanceState) {
 
     }
 
@@ -58,9 +56,12 @@ public class MainActivityFragment extends BaseFragment {
      */
     @OnClick(R.id.button_fade_in)
     public void fade_in() {
-        setButtonEnable(false);
+        //check if fragment was detach
+        if (mContext == null) {
+            return;
+        }
 
-        final AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
+        final AnimatedToolbar toolbar = ((MainActivity)mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
                 .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
@@ -68,8 +69,10 @@ public class MainActivityFragment extends BaseFragment {
 
     @OnClick(R.id.button_fade_out)
     public void fade_out(final Button button) {
-        setButtonEnable(false);
-
+        //check if fragment was detach
+        if (mContext == null) {
+            return;
+        }
 
         final AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
         toolbar.getAnimator()
@@ -78,17 +81,16 @@ public class MainActivityFragment extends BaseFragment {
     }
 
     /*
-    ** Utils
+    ** Private
      */
-    final ToolbarAnimatorCallback mToolbarAnimatorCallback = new ToolbarAnimatorCallback() {
+    private final ToolbarAnimatorCallback mToolbarAnimatorCallback = new ToolbarAnimatorCallback() {
         @Override
         public void hasEnded() {
-            setButtonEnable(true);
+            //check if fragment was detach
+            if (mContext == null) {
+                return;
+            }
+            Toast.makeText(mContext, "Animation ended :D", Toast.LENGTH_LONG).show();
         }
     };
-
-    private void setButtonEnable(final Boolean enable) {
-        buttonFadeIn.setEnabled(enable);
-        buttonFadeOut.setEnabled(enable);
-    }
 }

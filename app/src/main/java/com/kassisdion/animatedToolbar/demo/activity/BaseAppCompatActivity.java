@@ -13,9 +13,8 @@ import butterknife.ButterKnife;
  * it make a little abstraction of the life cycle
  * it add a butterKnife support and some useful field/method
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected final String TAG = getClass().getSimpleName();
-    protected Context mContext;
 
     /*
     ** Method that every child will have to implement
@@ -29,16 +28,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getLayoutResource();
 
     /**
-     * init the graphical part
-     * like putting text under Editext
+     * init the activity here
+     * This method is equivalent to onCreate()
      */
-    protected abstract void initUI(Bundle savedInstanceState);
-
-    /**
-     * init the logical part
-     * like retrieving date from an API
-     */
-    protected abstract void initLogic(Bundle savedInstanceState);
+    protected abstract void init(Bundle savedInstanceState);
 
     /*
     ** Life cycle
@@ -46,11 +39,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(getLayoutResource());
         ButterKnife.bind(this);
-        mContext = getApplicationContext();
-        initUI(savedInstanceState);
-        initLogic(savedInstanceState);
+        init(savedInstanceState);
     }
 
     @Override

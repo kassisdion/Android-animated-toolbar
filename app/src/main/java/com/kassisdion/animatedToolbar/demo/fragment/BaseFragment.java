@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
 
     protected final String TAG = getClass().getSimpleName();
+    @Nullable
     protected Context mContext;
 
     /*
@@ -33,16 +34,9 @@ public abstract class BaseFragment extends Fragment {
     protected abstract int getLayoutResource();
 
     /**
-     * init the graphical part
-     * /*like putting text under Editext
+     * init the fragment, this is the equivalent of onCreateView
      */
-    protected abstract void initUI(Bundle savedInstanceState);
-
-    /**
-     * init the logical part
-     * like retrieving date from an API
-     */
-    protected abstract void initLogic(Bundle savedInstanceState);
+    protected abstract void init(View rootView, Bundle savedInstanceState);
 
     /*
     ** Life cycle
@@ -50,11 +44,9 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mContext = getContext();
         View rootView = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.bind(this, rootView);
-        initUI(savedInstanceState);
-        initLogic(savedInstanceState);
+        init(rootView, savedInstanceState);
         return rootView;
     }
 
@@ -62,6 +54,18 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mContext = null;
     }
 
     /*
