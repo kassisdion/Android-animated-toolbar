@@ -36,7 +36,7 @@ Step 2. Add the dependency in the form
 
 ```gradle
 dependencies {
-  compile 'com.github.kassisdion:Android-animated-toolbar:0.0.3'
+  compile 'com.github.kassisdion:Android-animated-toolbar:v1.1.0'
 }
 ```
 
