@@ -34,6 +34,6 @@ public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
     ** Public method
      */
     public ToolbarAnimator getAnimator() {
-        return new ToolbarAnimator(mContext, this);
+        return mToolbarAnimator;
     }
 }
