@@ -81,7 +81,10 @@ public final class ToolbarAnimator {
     public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
         mDuration = duration;
 
-        //Since we can't reuse a timer (see Timer.cancel()) we instantiate a new one
+        //Since we can't reuse a timer (see Timer.cancel()) we stop the previous animation
+        if (mTimer != null) {
+            stopScheduler();
+        }
         mTimer = new Timer();
 
         //Check animationType and init variable in regard of the type
