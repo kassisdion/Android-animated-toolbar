@@ -1,5 +1,8 @@
 # Android-animated-toolbar
 
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
+[![Release](https://jitpack.io/v/kassisdion/Android-animated-toolbar.svg)](https://jitpack.io/#kassisdion/Android-animated-toolbar)
+
 ## What's Android-animated-toolbar ?
 One day, I saw a question about ["How to implement fade_in on the under the actionBar"](http://stackoverflow.com/a/32800153/5215998).
 I find this question really interesting so i started to find out a solution and 1 day later this sample was born.
