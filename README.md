@@ -14,6 +14,8 @@ I find this question really interesting so i started to find out a solution and 
 * You can choose the animation duration.
 * You can choose a delay (time before launching the animation).
 * You can choose the color of the animation.
+* You can add an onAnimationEnded() listener.
+* You can stop the animation.
 
 ## Import
 [JitPack](https://jitpack.io/)
