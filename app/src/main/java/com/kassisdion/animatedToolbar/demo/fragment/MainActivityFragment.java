@@ -74,7 +74,7 @@ public class MainActivityFragment extends BaseFragment {
         final AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
-                .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
+                .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_OUT);
     }
 
     /*
