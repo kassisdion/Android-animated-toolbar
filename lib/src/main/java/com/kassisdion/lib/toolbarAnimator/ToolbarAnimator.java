@@ -39,6 +39,7 @@ public final class ToolbarAnimator {
     private long mDuration;//duration of the animation
     private long mDelay;//amount of time in milliseconds before animation execution.
     private final int mAnimationColor;//background color for the animation
+    private final Drawable mAnimationBackground;//background drawable for the animation
 
     //public field
     public enum AnimationType {
@@ -53,6 +54,7 @@ public final class ToolbarAnimator {
         mContext = context;
         mToolbar = toolbar;
         mAnimationColor = animationColor;
+        mAnimationBackground = new ColorDrawable(animationColor);
     }
 
     public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
@@ -75,10 +77,12 @@ public final class ToolbarAnimator {
     public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
         mDuration = duration;
 
+        //If we don't have a timer, we instantiate a new one
         if (mTimer == null) {
             mTimer = new Timer();
         }
 
+        //Check animationType and init variable in regard of the type
         switch (animationType) {
             case FADE_IN:
                 mAlphaPerTick = ALPHA_MAX / NUMBER_OF_TICK;
@@ -89,17 +93,11 @@ public final class ToolbarAnimator {
                 mCurrentAlpha = 255;
                 break;
         }
-        initTimer();
-    }
 
-    /*
-    ** Private method
-     */
-    private void initTimer() {
         //calculation of the time between 2 run() call
         long period = mDuration / NUMBER_OF_TICK;
 
-        //init a timer which will updateActionBarColor on every each period
+        //init a timer as a scheduler for calling updateActionBar() on every each period
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -109,6 +107,9 @@ public final class ToolbarAnimator {
         }, mDelay, period);
     }
 
+    /*
+    ** Private method
+     */
     private void updateActionBar() {
         //We have to go to the main thread for updating the interface.
         ((Activity) mContext).runOnUiThread(new TimerTask() {
@@ -122,25 +123,13 @@ public final class ToolbarAnimator {
                 }
 
                 //create the new backgroundColorDrawable
-                final Drawable backgroundDrawable = new ColorDrawable(mAnimationColor);
-                backgroundDrawable.setAlpha(mCurrentAlpha);
+                mAnimationBackground.setAlpha(mCurrentAlpha);
 
                 //apply the new drawable on the actionBar
-                updateUi(backgroundDrawable);
+                mToolbar.setBackgroundDrawable(mAnimationBackground);
 
                 //upgrade alpha
                 mCurrentAlpha += mAlphaPerTick;
-            }
-        });
-    }
-
-    private void updateUi(final Drawable backgroundDrawable) {
-        //We have to go to the main thread for updating the interface.
-        ((Activity) mContext).runOnUiThread(new TimerTask() {
-            @Override
-            public void run() {
-                //apply the new color
-                mToolbar.setBackgroundDrawable(backgroundDrawable);
             }
         });
     }
