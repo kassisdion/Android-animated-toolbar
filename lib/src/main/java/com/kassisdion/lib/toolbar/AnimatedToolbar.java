@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
 
     private final static String TAG = AnimatedToolbar.class.getSimpleName();
-    private ToolbarAnimator mToolbarAnimator;
+    private final ToolbarAnimator mToolbarAnimator;
     private final Context mContext;
 
     /*
