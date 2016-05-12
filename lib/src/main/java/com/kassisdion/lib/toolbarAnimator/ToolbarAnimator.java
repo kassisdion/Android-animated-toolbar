@@ -1,8 +1,5 @@
 package com.kassisdion.lib.toolbarAnimator;
 
-import com.kassisdion.lib.R;
-import com.kassisdion.utils.LogHelper;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+
+import com.kassisdion.lib.R;
+import com.kassisdion.utils.LogHelper;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,8 +24,8 @@ public final class ToolbarAnimator {
     private final static String TAG = ToolbarAnimator.class.getSimpleName();
 
     //private static field
-    private final int ALPHA_MAX = 255;//just look at the documentation
-    private final int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
+    private final static int ALPHA_MAX = 255;//just look at the documentation
+    private final static int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
 
     //private field we'll change under the thread
     private volatile int mCurrentAlpha;
@@ -34,12 +34,11 @@ public final class ToolbarAnimator {
     private volatile int mAlphaPerTick;//alpha we'll remove/add on every tick
 
     //private field
-    private final Toolbar mActionBar;
+    private final Toolbar mToolbar;
     private final Context mContext;
-    private long mPeriod;
-    private long mDuration;
+    private long mDuration;//duration of the animation
     private long mDelay;//amount of time in milliseconds before animation execution.
-    private final int mActionBarBackgroundColor;
+    private final int mAnimationColor;//background color for the animation
 
     //public field
     public enum AnimationType {
@@ -50,10 +49,10 @@ public final class ToolbarAnimator {
     /*
     ** Constructor
      */
-    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar, final int actionBarBackgroundColor) {
+    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar toolbar, final int animationColor) {
         mContext = context;
-        mActionBar = actionBar;
-        mActionBarBackgroundColor = actionBarBackgroundColor;
+        mToolbar = toolbar;
+        mAnimationColor = animationColor;
     }
 
     public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
@@ -98,7 +97,7 @@ public final class ToolbarAnimator {
      */
     private void initTimer() {
         //calculation of the time between 2 run() call
-        mPeriod = mDuration / NUMBER_OF_TICK;
+        long period = mDuration / NUMBER_OF_TICK;
 
         //init a timer which will updateActionBarColor on every each period
         mTimer.schedule(new TimerTask() {
@@ -107,7 +106,7 @@ public final class ToolbarAnimator {
                 //update the actionBar
                 updateActionBar();
             }
-        }, mDelay, mPeriod);
+        }, mDelay, period);
     }
 
     private void updateActionBar() {
@@ -123,7 +122,7 @@ public final class ToolbarAnimator {
                 }
 
                 //create the new backgroundColorDrawable
-                final Drawable backgroundDrawable = new ColorDrawable(mActionBarBackgroundColor);
+                final Drawable backgroundDrawable = new ColorDrawable(mAnimationColor);
                 backgroundDrawable.setAlpha(mCurrentAlpha);
 
                 //apply the new drawable on the actionBar
@@ -141,7 +140,7 @@ public final class ToolbarAnimator {
             @Override
             public void run() {
                 //apply the new color
-                mActionBar.setBackgroundDrawable(backgroundDrawable);
+                mToolbar.setBackgroundDrawable(backgroundDrawable);
             }
         });
     }
