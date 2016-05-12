@@ -25,7 +25,7 @@ public final class ToolbarAnimator {
 
     //private static field
     private final static int ALPHA_MAX = 255;//just look at the documentation
-    private final static int NUMBER_OF_TICK = 255;//can go from 1 to 255, it's the number of tick
+    private final static int NUMBER_OF_TICK = 255;//Number of tick, can go from 1 to 255 (cause alpha is an integer)
 
     //private field we'll change under the thread
     private volatile int mCurrentAlpha;
@@ -74,13 +74,15 @@ public final class ToolbarAnimator {
         return this;
     }
 
+    public void stopAnimation() {
+        stopScheduler();
+    }
+
     public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
         mDuration = duration;
 
-        //If we don't have a timer, we instantiate a new one
-        if (mTimer == null) {
-            mTimer = new Timer();
-        }
+        //Since we can't reuse a timer (see Timer.cancel()) we instantiate a new one
+        mTimer = new Timer();
 
         //Check animationType and init variable in regard of the type
         switch (animationType) {
@@ -118,7 +120,8 @@ public final class ToolbarAnimator {
                 //check if the animation is ended
                 if (mCurrentAlpha > 255 || mCurrentAlpha < 0) {
                     LogHelper.d(TAG, "cancel timer");
-                    finishAnimation();
+
+                    stopScheduler();
                     return;
                 }
 
@@ -134,7 +137,10 @@ public final class ToolbarAnimator {
         });
     }
 
-    private void finishAnimation() {
+    /*
+    ** Stop the scheduler and call the listener
+     */
+    private void stopScheduler() {
         if (mTimer == null) {
             return;
         }
