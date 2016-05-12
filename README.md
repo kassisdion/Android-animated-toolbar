@@ -1,5 +1,7 @@
 # Android-animated-toolbar
 
+[![API](https://img.shields.io/badge/API-15%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=15)
+
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
 [![Release](https://jitpack.io/v/kassisdion/Android-animated-toolbar.svg)](https://jitpack.io/#kassisdion/Android-animated-toolbar)
 
