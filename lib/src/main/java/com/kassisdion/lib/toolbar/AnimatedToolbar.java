@@ -19,9 +19,7 @@ public class AnimatedToolbar extends android.support.v7.widget.Toolbar {
     }
 
     public AnimatedToolbar(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        mContext = context;
+        this(context, attrs, android.support.v7.appcompat.R.attr.toolbarStyle);
     }
 
     public AnimatedToolbar(Context context, AttributeSet attrs, int defStyleAttr) {
