@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseAppCompatActivity {
 
     @Bind(R.id.toolbar)
     AnimatedToolbar mToolbar;
@@ -22,13 +22,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void initUI(Bundle savedInstanceState) {
+    protected void init(Bundle savedInstanceState) {
         setUpToolbar();
         MainActivityFragment.load(getSupportFragmentManager(), false);
-    }
-
-    @Override
-    protected void initLogic(Bundle savedInstanceState) {
     }
 
     /*
