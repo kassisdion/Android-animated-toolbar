@@ -35,7 +35,6 @@ public final class ToolbarAnimator {
 
     //private field
     private final Toolbar mToolbar;
-    private final Context mContext;
     private long mDuration;//duration of the animation
     private long mDelay;//amount of time in milliseconds before animation execution.
     private int mAnimationColor;//background color for the animation
@@ -50,15 +49,14 @@ public final class ToolbarAnimator {
     /*
     ** Constructor
      */
-    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar toolbar, final int animationColor) {
-        mContext = context;
+    public ToolbarAnimator(@NonNull final Toolbar toolbar, final int animationColor) {
         mToolbar = toolbar;
         mAnimationColor = animationColor;
         mAnimationBackground = new ColorDrawable(animationColor);
     }
 
     public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
-        this(context, actionBar, getThemeAccentColor(context));
+        this(actionBar, getThemeAccentColor(context));
     }
 
     /*
@@ -137,7 +135,7 @@ public final class ToolbarAnimator {
     //Update the toolbar background on the main thread and check if the animation has to stop
     private void updateActionBar() {
         //We have to go to the main thread for updating the interface.
-        ((Activity) mContext).runOnUiThread(new TimerTask() {
+        ((Activity) mToolbar.getContext()).runOnUiThread(new TimerTask() {
             @Override
             public void run() {
                 //check if the animation is ended
@@ -152,7 +150,7 @@ public final class ToolbarAnimator {
                 mAnimationBackground.setAlpha(mCurrentAlpha);
 
                 //apply the new drawable on the actionBar
-                mToolbar.setBackgroundDrawable(mAnimationBackground);
+                mToolbar.setBackground(mAnimationBackground);
 
                 //upgrade alpha
                 mCurrentAlpha += mAlphaPerTick;
@@ -177,7 +175,7 @@ public final class ToolbarAnimator {
     /*
     ** Utils
      */
-    private static int getThemeAccentColor(final Context context) {
+    private static int getThemeAccentColor(@NonNull final Context context) {
         TypedValue typedValue = new TypedValue();
 
         TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
