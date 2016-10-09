@@ -7,6 +7,7 @@ import com.kassisdion.lib.toolbarAnimator.ToolbarAnimator;
 import com.kassisdion.lib.toolbarAnimator.ToolbarAnimatorCallback;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -21,15 +22,10 @@ import butterknife.OnClick;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends BaseFragment {
+
     public final static String FRAGMENT_NAME = MainActivityFragment.class.getSimpleName();
 
-    @Bind(R.id.button_fade_in)
-    Button buttonFadeIn;
-
-    @Bind(R.id.button_fade_out)
-    Button buttonFadeOut;
-
-    public static void load(final FragmentManager fragmentManager, final Boolean toBackStack) {
+    public static void load(@NonNull final FragmentManager fragmentManager, final Boolean toBackStack) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, new MainActivityFragment());
         if (toBackStack) {
@@ -61,7 +57,7 @@ public class MainActivityFragment extends BaseFragment {
             return;
         }
 
-        final AnimatedToolbar toolbar = ((MainActivity)mContext).getToolbar();
+        AnimatedToolbar toolbar = ((MainActivity)mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
                 .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
@@ -74,7 +70,7 @@ public class MainActivityFragment extends BaseFragment {
             return;
         }
 
-        final AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
+        AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
                 .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_OUT);

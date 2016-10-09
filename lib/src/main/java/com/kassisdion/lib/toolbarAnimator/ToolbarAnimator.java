@@ -9,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.kassisdion.lib.R;
 import com.kassisdion.utils.LogHelper;
@@ -92,7 +95,18 @@ public final class ToolbarAnimator {
     /*
     ** Public method
      */
-    public void startAnimation(final long duration, @NonNull final AnimationType animationType) {
+    public void animateItem(final long duration, @NonNull final AnimationType animationType, @NonNull final MenuItem menuItem) {
+        startAnimation(duration, animationType, menuItem.getActionView());
+    }
+
+    public void animateToolbar(final long duration, @NonNull final AnimationType animationType) {
+        startAnimation(duration, animationType, mToolbar);
+    }
+
+    /*
+    ** Private method
+     */
+    private void startAnimation(final long duration, @NonNull final AnimationType animationType, @NonNull final View target) {
         mDuration = duration;
 
         //Since we can't reuse a timer (see Timer.cancel()) we stop the previous animation
@@ -122,18 +136,14 @@ public final class ToolbarAnimator {
         mTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                //update the actionBar
-                updateActionBar();
+                //update the target background
+                updateTargetBackground(target);
             }
         }, mDelay, period);
     }
 
-    /*
-    ** Private method
-     */
-
-    //Update the toolbar background on the main thread and check if the animation has to stop
-    private void updateActionBar() {
+    //Update the target background on the main thread and check if the animation has to stop
+    private void updateTargetBackground(@NonNull final View target) {
         //We have to go to the main thread for updating the interface.
         ((Activity) mToolbar.getContext()).runOnUiThread(new TimerTask() {
             @Override
@@ -150,7 +160,7 @@ public final class ToolbarAnimator {
                 mAnimationBackground.setAlpha(mCurrentAlpha);
 
                 //apply the new drawable on the actionBar
-                mToolbar.setBackground(mAnimationBackground);
+                target.setBackground(mAnimationBackground);
 
                 //upgrade alpha
                 mCurrentAlpha += mAlphaPerTick;
