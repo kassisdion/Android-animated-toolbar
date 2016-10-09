@@ -21,6 +21,8 @@ I find this question really interesting so i started to find out a solution and 
 * You can add an onAnimationEnded() listener.
 * You can stop the animation.
 
+Next version is comming with the menuItem support, see https://github.com/kassisdion/Android-animated-toolbar/issues/1
+
 ## Import
 [JitPack](https://jitpack.io/)
 
