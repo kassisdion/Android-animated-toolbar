@@ -9,9 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.kassisdion.lib.R;
 import com.kassisdion.utils.LogHelper;
@@ -40,8 +38,7 @@ public final class ToolbarAnimator {
     private final Toolbar mToolbar;
     private long mDuration;//duration of the animation
     private long mDelay;//amount of time in milliseconds before animation execution.
-    private int mAnimationColor;//background color for the animation
-    private final Drawable mAnimationBackground;//background drawable for the animation
+    private Drawable mAnimationBackground = null;//background drawable for the animatio
 
     //public field
     public enum AnimationType {
@@ -52,14 +49,8 @@ public final class ToolbarAnimator {
     /*
     ** Constructor
      */
-    public ToolbarAnimator(@NonNull final Toolbar toolbar, final int animationColor) {
+    public ToolbarAnimator(@NonNull final Toolbar toolbar) {
         mToolbar = toolbar;
-        mAnimationColor = animationColor;
-        mAnimationBackground = new ColorDrawable(animationColor);
-    }
-
-    public ToolbarAnimator(@NonNull final Context context, @NonNull final Toolbar actionBar) {
-        this(actionBar, getThemeAccentColor(context));
     }
 
     /*
@@ -75,47 +66,68 @@ public final class ToolbarAnimator {
         return this;
     }
 
-    public long getDelay() {
-        return mDelay;
-    }
-
-    public void stopAnimation() {
-        stopScheduler();
-    }
-
-    public ToolbarAnimator setAnimationColor(final int color) {
-        mAnimationColor = color;
-        return this;
-    }
-
-    public int getAnimationColor() {
-        return mAnimationColor;
+    private void setAnimationDrawable(@NonNull final Drawable backgroundDrawable) {
+        mAnimationBackground = backgroundDrawable;
     }
 
     /*
     ** Public method
      */
-    public void animateItem(final long duration, @NonNull final AnimationType animationType, @NonNull final int menuItemId) {
-        startAnimation(duration, animationType, mToolbar.getMenu().findItem(menuItemId).getActionView());
+    public void stopAnimation() {
+        stopScheduler();
     }
 
-    public void animateItem(final long duration, @NonNull final AnimationType animationType, @NonNull final MenuItem menuItem) {
-        startAnimation(duration, animationType, menuItem.getActionView());
+    public void animateItemActionView(final long duration, @NonNull final AnimationType animationType, final int menuItemId) {
+        animateItemActionView(duration, animationType, mToolbar.getMenu().findItem(menuItemId));
     }
 
-    public void animateToolbar(final long duration, @NonNull final AnimationType animationType) {
-        startAnimation(duration, animationType, mToolbar);
+    public void animateItemActionView(final long duration, @NonNull final AnimationType animationType, @NonNull final MenuItem menuItem) {
+        startAnimation(duration, animationType, new TargetUpdater() {
+            @Override
+            public Drawable getTargetBackground() {
+                return menuItem.getIcon();
+            }
+
+            @Override
+            public void updateTargetBackground(@NonNull Drawable newBackground) {
+                menuItem.setIcon(newBackground);
+            }
+        });
+    }
+
+    public void animateToolbarBackground(final long duration, @NonNull final AnimationType animationType) {
+        startAnimation(duration, animationType, new TargetUpdater() {
+            @Override
+            public Drawable getTargetBackground() {
+                return mToolbar.getBackground();
+            }
+
+            @Override
+            public void updateTargetBackground(@NonNull Drawable newBackground) {
+                mToolbar.setBackground(newBackground);
+            }
+        });
     }
 
     /*
     ** Private method
      */
-    private void startAnimation(final long duration, @NonNull final AnimationType animationType, @NonNull final View target) {
+    private void startAnimation(final long duration, @NonNull final AnimationType animationType, @NonNull final TargetUpdater targetUpdater) {
         mDuration = duration;
 
         //Since we can't reuse a timer (see Timer.cancel()) we stop the previous animation
         if (mTimer != null) {
             stopScheduler();
+        }
+
+        //Init backgroundDrawable
+        if (mAnimationBackground == null) {
+            Drawable targetBackground = targetUpdater.getTargetBackground();
+            if (targetBackground != null) {
+                mAnimationBackground = targetBackground;
+            } else {
+                mAnimationBackground = new ColorDrawable(getThemeAccentColor(mToolbar.getContext()));
+            }
         }
 
         //Instantiate a new timer
@@ -141,13 +153,13 @@ public final class ToolbarAnimator {
             @Override
             public void run() {
                 //update the target background
-                updateTargetBackground(target);
+                updateTargetBackground(targetUpdater);
             }
         }, mDelay, period);
     }
 
     //Update the target background on the main thread and check if the animation has to stop
-    private void updateTargetBackground(@NonNull final View target) {
+    private void updateTargetBackground(@NonNull final TargetUpdater targetUpdater) {
         //We have to go to the main thread for updating the interface.
         ((Activity) mToolbar.getContext()).runOnUiThread(new TimerTask() {
             @Override
@@ -164,7 +176,7 @@ public final class ToolbarAnimator {
                 mAnimationBackground.setAlpha(mCurrentAlpha);
 
                 //apply the new drawable on the actionBar
-                target.setBackground(mAnimationBackground);
+                targetUpdater.updateTargetBackground(mAnimationBackground);
 
                 //upgrade alpha
                 mCurrentAlpha += mAlphaPerTick;
@@ -184,6 +196,11 @@ public final class ToolbarAnimator {
         if (mCallback != null) {
             mCallback.hasEnded();
         }
+    }
+
+    private interface TargetUpdater {
+        Drawable getTargetBackground();
+        void updateTargetBackground(@NonNull final Drawable newBackground);
     }
 
     /*
