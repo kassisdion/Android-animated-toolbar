@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
 
     <!-- Custom String-->
-    <string name="fade_in">fade_in</string>
-    <string name="fade_out">fade out</string>
+    <string name="fade_in_toolbar">fade_in toolbar</string>
+    <string name="fade_out_toolbar">fade_out toolbar</string>
+    <string name="fade_in_item">fade_in item</string>
+    <string name="fade_out_item">fade_out item</string>
 </resources>

@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -43,15 +43,22 @@ public class MainActivityFragment extends BaseFragment {
     }
 
     @Override
-    protected void init(View rootView, Bundle savedInstanceState) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    protected void init(View rootView, Bundle savedInstanceState) {
+        //Force onCreateOptionsMenu call
+        setHasOptionsMenu(true);
     }
 
     /*
     ** Butterknife callback
      */
-    @OnClick(R.id.button_fade_in)
-    public void fade_in() {
+    @OnClick(R.id.button_fade_in_toolbar)
+    public void fadeInToolbar() {
         //check if fragment was detach
         if (mContext == null) {
             return;
@@ -60,11 +67,11 @@ public class MainActivityFragment extends BaseFragment {
         AnimatedToolbar toolbar = ((MainActivity)mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
-                .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
+                .animateToolbarBackground(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN);
     }
 
-    @OnClick(R.id.button_fade_out)
-    public void fade_out(final Button button) {
+    @OnClick(R.id.button_fade_out_toolbar)
+    public void fadeOuToolbar() {
         //check if fragment was detach
         if (mContext == null) {
             return;
@@ -73,7 +80,33 @@ public class MainActivityFragment extends BaseFragment {
         AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
         toolbar.getAnimator()
                 .setCallback(mToolbarAnimatorCallback)
-                .startAnimation(2 * 1000, ToolbarAnimator.AnimationType.FADE_OUT);
+                .animateToolbarBackground(2 * 1000, ToolbarAnimator.AnimationType.FADE_OUT);
+    }
+
+    @OnClick(R.id.button_fade_in_item)
+    public void fadeInItem() {
+        //check if fragment was detach
+        if (mContext == null) {
+            return;
+        }
+
+        AnimatedToolbar toolbar = ((MainActivity)mContext).getToolbar();
+        toolbar.getAnimator()
+                .setCallback(mToolbarAnimatorCallback)
+                .animateItemActionView(2 * 1000, ToolbarAnimator.AnimationType.FADE_IN, R.id.action_test);
+    }
+
+    @OnClick(R.id.button_fade_out_item)
+    public void fadeOutItem(final Button button) {
+        //check if fragment was detach
+        if (mContext == null) {
+            return;
+        }
+
+        AnimatedToolbar toolbar = ((MainActivity) mContext).getToolbar();
+        toolbar.getAnimator()
+                .setCallback(mToolbarAnimatorCallback)
+                .animateItemActionView(2 * 1000, ToolbarAnimator.AnimationType.FADE_OUT, R.id.action_test);
     }
 
     /*
