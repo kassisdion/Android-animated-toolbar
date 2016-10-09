@@ -95,6 +95,10 @@ public final class ToolbarAnimator {
     /*
     ** Public method
      */
+    public void animateItem(final long duration, @NonNull final AnimationType animationType, @NonNull final int menuItemId) {
+        startAnimation(duration, animationType, mToolbar.getMenu().findItem(menuItemId).getActionView());
+    }
+
     public void animateItem(final long duration, @NonNull final AnimationType animationType, @NonNull final MenuItem menuItem) {
         startAnimation(duration, animationType, menuItem.getActionView());
     }
