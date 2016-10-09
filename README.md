@@ -90,6 +90,9 @@ You can add some extra parameters before starting the animation :
 ## Sample
 You can take look at the *app* folder more information.
 
+## Javadoc
+You can take a look at the [javadoc](https://jitpack.io/com/github/kassisdion/Android-animated-toolbar/v1.1.0/javadoc/)
+
 ## License
 See  LICENSE.txt
 
